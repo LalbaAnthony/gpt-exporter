@@ -1,0 +1,31 @@
+{
+    "manifest_version": 3,
+    "name": "ChatGPT Exporter",
+    "version": "1.0.0",
+    "description": "Export ChatGPT conversations to markdown",
+    "permissions": [
+        "webRequest",
+        "activeTab",
+        "storage"
+    ],
+    "host_permissions": [
+        "https://chatgpt.com/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://chatgpt.com/c/*"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    }
+}
