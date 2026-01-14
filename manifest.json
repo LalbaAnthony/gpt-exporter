@@ -4,6 +4,7 @@
     "version": "1.0.0",
     "description": "Export ChatGPT conversations to markdown",
     "permissions": [
+        "cookies",
         "webRequest",
         "activeTab",
         "storage"

@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const previewEl = document.getElementById('preview');
 
     chrome.runtime.sendMessage({ action: 'getConversation' }, (response) => {
-        console.log('Response from background:', response);
         if (response && response.data) {
             conversationData = response.data;
             const markdown = extractMarkdown(conversationData);
