@@ -1,13 +1,11 @@
 {
     "manifest_version": 3,
-    "name": "ChatGPT Exporter",
+    "name": "ChatGPT Markdown Exporter",
     "version": "1.0.0",
     "description": "Export ChatGPT conversations to markdown",
     "permissions": [
-        "cookies",
-        "webRequest",
         "activeTab",
-        "storage"
+        "scripting"
     ],
     "host_permissions": [
         "https://chatgpt.com/*"
@@ -24,6 +22,16 @@
                 "content.js"
             ],
             "run_at": "document_start"
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "inject.js"
+            ],
+            "matches": [
+                "https://chatgpt.com/*"
+            ]
         }
     ],
     "action": {

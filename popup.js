@@ -1,11 +1,23 @@
+// popup.js
 let conversationData = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Popup opened');
+
     const statusEl = document.getElementById('status');
     const copyBtn = document.getElementById('copyBtn');
     const previewEl = document.getElementById('preview');
 
     chrome.runtime.sendMessage({ action: 'getConversation' }, (response) => {
+        console.log('Response from background:', response);
+
+        if (chrome.runtime.lastError) {
+            console.error('Runtime error:', chrome.runtime.lastError);
+            statusEl.textContent = 'Erreur de communication';
+            statusEl.className = 'error';
+            return;
+        }
+
         if (response && response.data) {
             conversationData = response.data;
             const markdown = extractMarkdown(conversationData);
@@ -31,13 +43,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const markdown = extractMarkdown(conversationData);
 
         navigator.clipboard.writeText(markdown).then(() => {
-            statusEl.textContent = 'Markdown copié dans le presse-papier';
+            statusEl.textContent = 'Markdown copié';
             statusEl.className = 'success';
 
             setTimeout(() => {
                 statusEl.textContent = 'Conversation chargée';
             }, 2000);
-        }).catch(() => {
+        }).catch((err) => {
+            console.error('Copy error:', err);
             statusEl.textContent = 'Erreur lors de la copie';
             statusEl.className = 'error';
         });
@@ -49,7 +62,6 @@ function extractMarkdown(data) {
 
     let markdown = '';
 
-    // Structure varies, adapt based on actual API response
     if (data.mapping) {
         const nodes = Object.values(data.mapping).sort((a, b) => {
             return (a.message?.create_time || 0) - (b.message?.create_time || 0);
