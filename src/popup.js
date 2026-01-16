@@ -5,6 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const copyBtn = document.getElementById('copyBtn');
     const previewEl = document.getElementById('preview');
 
+    function limitString(str, maxLen = 100) {
+        if (!str) return "";
+        if (str.length <= maxLen) return str;
+        return str.slice(0, maxLen).trim() + " ...";
+    }
+
     chrome.runtime.sendMessage({ action: 'getConversation' }, (response) => {
         if (chrome.runtime.lastError) {
             console.error('Runtime error:', chrome.runtime.lastError);
@@ -22,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 statusEl.className = 'success';
                 copyBtn.disabled = false;
 
-                previewEl.textContent = markdown.substring(0, 500) + (markdown.length > 500 ? '...' : '');
+                previewEl.textContent = limitString(markdown, 100);
                 previewEl.style.display = 'block';
             } else {
                 statusEl.textContent = 'Aucune donnée markdown trouvée';
@@ -71,9 +77,9 @@ function extractMarkdown(data) {
                     const text = content.parts.join('\n\n');
 
                     if (role === 'user') {
-                        markdown += `## User\n\n${text}\n\n`;
+                        markdown += `## User\n\n${text}\n\n\n\n\n\n`;
                     } else if (role === 'assistant') {
-                        markdown += `## Assistant\n\n${text}\n\n`;
+                        markdown += `## Assistant\n\n${text}\n\n\n\n\n\n`;
                     }
                 }
             }
