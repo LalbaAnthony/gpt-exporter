@@ -6,8 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const previewEl = document.getElementById('preview');
 
     chrome.runtime.sendMessage({ action: 'getConversation' }, (response) => {
-        console.log('Response from background:', response);
-
         if (chrome.runtime.lastError) {
             console.error('Runtime error:', chrome.runtime.lastError);
             statusEl.textContent = 'Erreur de communication';
@@ -56,8 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function extractMarkdown(data) {
     if (!data) return '';
-
-    console.log('Extracting markdown from data:', data);
 
     let markdown = '';
 

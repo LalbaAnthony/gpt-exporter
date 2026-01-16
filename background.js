@@ -1,11 +1,8 @@
 let conversationData = {};
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log('Received message in background:', request, sender);
 
     if (request.action === 'storeConversation') {
-        console.log('Storing conversation data from tab:', sender.tab.id);
-        console.log(request.data);
         const tabId = sender.tab.id;
         conversationData[tabId] = request.data;
         sendResponse({ success: true });

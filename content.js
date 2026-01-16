@@ -9,7 +9,6 @@ script.onload = function () {
 // Listen for messages from injected script
 window.addEventListener('message', (event) => {
     if (event.source === window && event.data.type === 'CHATGPT_CONVERSATION') {
-        console.log('Received conversation data in content script:', event.data);
         chrome.runtime.sendMessage({
             action: 'storeConversation',
             data: event.data.data
