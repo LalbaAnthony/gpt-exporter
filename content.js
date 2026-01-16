@@ -1,6 +1,3 @@
-// content.js
-console.log('Content script loaded');
-
 // Inject script file into page
 const script = document.createElement('script');
 script.src = chrome.runtime.getURL('inject.js');
@@ -12,16 +9,13 @@ script.onload = function () {
 // Listen for messages from injected script
 window.addEventListener('message', (event) => {
     if (event.source === window && event.data.type === 'CHATGPT_CONVERSATION') {
-        console.log('Content script received conversation data');
-
+        console.log('Received conversation data in content script:', event.data);
         chrome.runtime.sendMessage({
             action: 'storeConversation',
             data: event.data.data
         }, (response) => {
             if (chrome.runtime.lastError) {
                 console.error('Error:', chrome.runtime.lastError);
-            } else {
-                console.log('Sent to background:', response);
             }
         });
     }

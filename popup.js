@@ -1,9 +1,6 @@
-// popup.js
 let conversationData = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Popup opened');
-
     const statusEl = document.getElementById('status');
     const copyBtn = document.getElementById('copyBtn');
     const previewEl = document.getElementById('preview');
@@ -59,6 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function extractMarkdown(data) {
     if (!data) return '';
+
+    console.log('Extracting markdown from data:', data);
 
     let markdown = '';
 

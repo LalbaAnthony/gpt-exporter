@@ -1,16 +1,13 @@
-// background.js
 let conversationData = {};
 
-console.log('Background script loaded');
-
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log('Message received:', request.action, 'from tab:', sender.tab?.id);
+    console.log('Received message in background:', request, sender);
 
     if (request.action === 'storeConversation') {
+        console.log('Storing conversation data from tab:', sender.tab.id);
+        console.log(request.data);
         const tabId = sender.tab.id;
-        console.log('Storing conversation for tab:', tabId);
         conversationData[tabId] = request.data;
-        console.log('Total stored conversations:', Object.keys(conversationData).length);
         sendResponse({ success: true });
         return true;
     }
@@ -18,11 +15,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'getConversation') {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             const tabId = tabs[0].id;
-            console.log('Getting conversation for tab:', tabId);
-            console.log('Available tabs with data:', Object.keys(conversationData));
 
             const data = conversationData[tabId] || null;
-            console.log('Returning data:', data ? 'Found' : 'Not found');
 
             sendResponse({ data: data });
         });
@@ -31,6 +25,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 chrome.tabs.onRemoved.addListener((tabId) => {
-    console.log('Tab removed:', tabId);
     delete conversationData[tabId];
 }); 

@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "ChatGPT Markdown Exporter",
+    "name": "GPT Exporter",
     "version": "1.0.0",
     "description": "Export ChatGPT conversations to markdown",
     "permissions": [
@@ -35,6 +35,16 @@
         }
     ],
     "action": {
-        "default_popup": "popup.html"
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "assets/icon.png",
+            "48": "assets/icon.png",
+            "128": "assets/icon.png"
+        }
+    },
+    "icons": {
+        "16": "assets/icon.png",
+        "48": "assets/icon.png",
+        "128": "assets/icon.png"
     }
 }

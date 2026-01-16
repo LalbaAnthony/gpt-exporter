@@ -1,2 +1,0 @@
-- [ ] Comparer requetes
-- [ ] Remove listener on chrome.webRequest.onCompleted.addListener after use to avoid infinite loop
