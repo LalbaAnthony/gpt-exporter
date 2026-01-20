@@ -8,7 +8,7 @@ script.onload = function () {
 
 // Listen for messages from injected script
 window.addEventListener('message', (event) => {
-    if (event.source === window && event.data.type === 'CHATGPT_CONVERSATION') {
+    if (event.source === window && event.data.type === 'GPT_CONVERSATION') {
         chrome.runtime.sendMessage({
             action: 'storeConversation',
             data: event.data.data

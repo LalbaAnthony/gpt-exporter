@@ -13,7 +13,7 @@
 
             cloned.json().then(data => {
                 window.postMessage({
-                    type: 'CHATGPT_CONVERSATION',
+                    type: 'GPT_CONVERSATION',
                     data: data
                 }, '*');
             }).catch(err => {
