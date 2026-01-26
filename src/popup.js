@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusEl = document.getElementById('status');
     const copyBtn = document.getElementById('copyBtn');
     const previewEl = document.getElementById('preview');
+    const fingerprintCheckbox = document.getElementById('fingerprintCheckbox');
 
     function limitString(str, maxLen = 100) {
         if (!str) return "";
@@ -41,7 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     copyBtn.addEventListener('click', () => {
-        const markdown = extractMarkdown(conversationData);
+        let markdown = extractMarkdown(conversationData);
+
+        if (markdown && fingerprintCheckbox.checked) {
+            markdown = removeGPTFingerprints(markdown);
+        }
 
         navigator.clipboard.writeText(markdown).then(() => {
             statusEl.textContent = 'Markdown copié';
@@ -76,10 +81,8 @@ function extractMarkdown(data) {
                 if (content.parts && content.parts.length > 0) {
                     const text = content.parts.join('\n\n');
 
-                    if (role === 'user') {
-                        markdown += `## User\n\n${text}\n\n\n\n\n\n`;
-                    } else if (role === 'assistant') {
-                        markdown += `## Assistant\n\n${text}\n\n\n\n\n\n`;
+                    if (role === 'assistant') {
+                        markdown += `${text}\n\n`;
                     }
                 }
             }
@@ -91,4 +94,38 @@ function extractMarkdown(data) {
     }
 
     return markdown;
+}
+
+function removeGPTFingerprints(str) {
+    // Remove all emojis from the text,
+    str = str.replace(/\p{Extended_Pictographic}/gu, '');
+
+    // Normalize quotes,
+    str = str
+        .replace(/[“”]/g, '"')
+        .replace(/[‘’]/g, "'")
+
+    // Normalize special characters,
+    str = str
+        .replace(/—/g, '-')
+        .replace(/…/g, '...')
+        .replace(/œ/g, 'oe')
+        .replace(/→/g, '->');
+
+    // Remove all double spaces from the text,
+    str = str.replace(/\s{2,}/g, ' ');
+
+    // Remove all double new lines from the text,
+    str = str.replace(/\n{2,}/g, '\n');
+
+    // Remove all spaces before end of sentence punctuation,
+    str = str.replace(/\s+([.!?])/g, '$1');
+
+    // Remove all bold from the text,
+    str = str.replace(/\*\*(.*?)\*\*/g, '$1');
+
+    // Remove all 3 dashes lines from the text,
+    str = str.replace(/^-{3,}$/gm, '');
+
+    return str;
 }

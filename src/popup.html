@@ -10,6 +10,10 @@
     <h1>GPT Exporter</h1>
     <div id="status">En attente de données...</div>
     <div id="preview"></div>
+    <div class="checkbox-wrapper">
+        <input type="checkbox" id="fingerprintCheckbox" checked>
+        <label for="fingerprintCheckbox">Supprimer les empreintes (emojis, etc.)</label>
+    </div>
     <button id="copyBtn" disabled>Copier</button>
     <script src="popup.js"></script>
 </body>
@@ -44,6 +48,10 @@
     #status.error {
         background: #f8d7da;
         color: #721c24;
+    }
+
+    .checkbox-wrapper {
+        margin-bottom: 15px;
     }
 
     button {
