@@ -104,6 +104,7 @@ function removeGPTFingerprints(str) {
     str = str
         .replace(/[“”]/g, '"')
         .replace(/[‘’]/g, "'")
+        .replace(/[«»]/g, '"');
 
     // Normalize special characters,
     str = str
@@ -112,20 +113,19 @@ function removeGPTFingerprints(str) {
         .replace(/œ/g, 'oe')
         .replace(/→/g, '->');
 
-    // Remove all double spaces from the text,
-    str = str.replace(/\s{2,}/g, ' ');
+    // Remove all '---' dashes lines from the text,
+    str = str.replace(/^-{3,}$/gm, '');
 
-    // Remove all double new lines from the text,
-    str = str.replace(/\n{2,}/g, '\n');
+    // Remove all double spaces from the text,
+    // str = str.replace(/\s{2,}/g, ' ');
+
+    // Remove all triple new lines from the text,
+    str = str.replace(/\n{3,}/g, '\n\n');
 
     // Remove all spaces before end of sentence punctuation,
     str = str.replace(/\s+([.!?])/g, '$1');
 
-    // Remove all bold from the text,
-    str = str.replace(/\*\*(.*?)\*\*/g, '$1');
-
-    // Remove all 3 dashes lines from the text,
-    str = str.replace(/^-{3,}$/gm, '');
+    str = str.trim();
 
     return str;
 }
