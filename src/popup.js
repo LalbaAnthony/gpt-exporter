@@ -100,14 +100,13 @@ function removeGPTFingerprints(str) {
     // Remove all emojis from the text,
     str = str.replace(/\p{Extended_Pictographic}/gu, '');
 
-    // Normalize quotes,
+    // Normalize special characters,
     str = str
         .replace(/[“”]/g, '"')
         .replace(/[‘’]/g, "'")
-        .replace(/[«»]/g, '"');
-
-    // Normalize special characters,
-    str = str
+        .replace(/[«»]/g, '"')
+        .replace(/≥/g, '>=')
+        .replace(/≤/g, '<=')
         .replace(/—/g, '-')
         .replace(/…/g, '...')
         .replace(/œ/g, 'oe')
