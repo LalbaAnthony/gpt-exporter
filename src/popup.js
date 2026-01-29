@@ -99,6 +99,9 @@ function extractMarkdown(data) {
 function removeGPTFingerprints(str) {
     // Remove all emojis from the text,
     str = str.replace(/\p{Extended_Pictographic}/gu, '');
+    
+    // Replace number keycap emojis with their corresponding numbers and a closing parenthesis
+    str = str.replace(/([0-9])\uFE0F?\u20E3/g, '$1)');
 
     // Normalize special characters,
     str = str

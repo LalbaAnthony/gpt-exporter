@@ -1,2 +1,1 @@
-- [ ] Ajouter transl numéros comme 1️⃣
 - [ ] Supprimer espace avant/après emojis lors de suppression emojis (si texte avant et après)
